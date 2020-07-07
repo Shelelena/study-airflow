@@ -1,0 +1,39 @@
+version: '3.1'
+services :
+
+  db:
+    image: postgres
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: dummy
+      POSTGRES_PASSWORD: dummy
+      POSTGRES_DB: dummy
+
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: airflow
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/root/airflow/dags
+      - ./test:/root/airflow/test
+      - ./plugins:/root/airflow/plugins
+      - ./airflow.cfg:/root/airflow/airflow.cfg
+
+      - ./data:/root/data
+      - ./supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./start.sh:/start.sh
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    depends_on: 
+      - db
+    ports:
+      - 8088:8080
