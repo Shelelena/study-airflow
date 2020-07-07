@@ -22,11 +22,8 @@ services :
       - "8080:8080"
     volumes:
       - ./dags:/root/airflow/dags
-      - ./test:/root/airflow/test
-      - ./plugins:/root/airflow/plugins
       - ./airflow.cfg:/root/airflow/airflow.cfg
 
-      - ./data:/root/data
       - ./supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
       - ./start.sh:/start.sh
 
